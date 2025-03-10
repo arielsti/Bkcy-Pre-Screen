@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bankruptcy Prequalification Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .question { margin: 15px 0; display: none; }
+        .active { display: block; }
+        label { margin-right: 10px; }
+        .indent { margin-left: 20px; }
+        .alert { color: red; font-weight: bold; font-size: 1.1em; }
+        #resultsContainer { margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; display: none; }
+        #resultsText { white-space: pre-wrap; font-size: 16px; line-height: 1.5; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
+        #copyButton { margin-top: 10px; padding: 5px 15px; cursor: pointer; }
+        #submitButton { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; float: right; }
+        #submitButton.submitted { background-color: gray; cursor: not-allowed; }
+        #submitButton:disabled { background-color: #cccccc; cursor: not-allowed; }
+        input[type="number"], input[type="text"], select, textarea { padding: 5px; margin: 5px 0; }
+        h2, h3 { color: #333; }
+        h4 { margin: 10px 0 5px; }
+    </style>
+</head>
+<body>
+    <h2>Bankruptcy Prequalification Questionnaire</h2>
+    <form id="bankruptcyForm">
+        <!-- Q1: Permission -->
+        <div id="q1" class="question active">
+            <label>Is it ok if I ask you a few questions to see if this is something we can help you with?</label><br>
+            <input type="radio" name="permission" value="yes"> Yes
+            <input type="radio" name="permission" value="no"> No
+        </div>
+
+        <!-- Q2: Prior or Active Bankruptcy -->
+        <div id="q2" class="question">
+            <label>Have you filed for bankruptcy before or are you in an active bankruptcy?</label><br>
+            <input type="radio" name="bankruptcyStatus" value="prior"> Yes, prior filing
+            <input type="radio" name="bankruptcyStatus" value="active"> Yes, active bankruptcy
+            <input type="radio" name="bankruptcyStatus" value="no"> No
+        </div>
+        <div id="q2a_prior" class="question indent">
+            <label>What chapter was your prior bankruptcy?</label><br>
+            <input type="text" name="priorChapter" placeholder="e.g., Chapter 7"><br>
+            <label>Was it dismissed?</label><br>
+            <input type="radio" name="priorDismissed" value="yes"> Yes
+            <input type="radio" name="priorDismissed" value="no"> No
+            <input type="text" name="dismissedWhen" placeholder="e.g., 2020" class="dismissed-input" disabled>
+        </div>
+        <div id="q2a_active" class="question indent">
+            <label>What chapter is your active bankruptcy?</label><br>
+            <input type="text" name="activeChapter" placeholder="e.g., Chapter 13"><br>
+            <div class="alert">Contact Main Office to determine if further questions should proceed.</div>
+        </div>
+
+        <!-- Q3: County -->
+        <div id="q3" class="question">
+            <label>What county do you live in?</label><br>
+            <input type="text" name="county">
+        </div>
+
+        <!-- Q4: Florida Residency -->
+        <div id="q4" class="question">
+            <label>How long have you lived in Florida?</label><br>
+            <div class="sub-question">
+                <label><input type="radio" name="floridaDurationType" value="years"> In years:</label>
+                <input type="number" name="floridaYears" min="0" step="0.1" class="duration-input" disabled>
+            </div>
+            <div class="sub-question">
+                <label><input type="radio" name="floridaDurationType" value="sinceYear"> Since year:</label>
+                <input type="number" name="floridaSinceYear" min="1900" max="2025" class="duration-input" disabled>
+            </div>
+            <div class="sub-question">
+                <label><input type="radio" name="floridaDurationType" value="sinceMonthYear"> Since month/year:</label>
+                <select name="floridaSinceMonth" class="duration-input" disabled>
+                    <option value="">Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <input type="number" name="floridaSinceYearMonth" min="1900" max="2025" class="duration-input" disabled>
+            </div>
+        </div>
+        <div id="q4a" class="question indent">
+            <label>Where were you living before?</label><br>
+            <select name="previousResidence">
+                <option value="">Select a state</option>
+                <option value="Alabama">Alabama</option>
+                <option value="Alaska">Alaska</option>
+                <option value="Arizona">Arizona</option>
+                <option value="Arkansas">Arkansas</option>
+                <option value="California">California</option>
+                <option value="Colorado">Colorado</option>
+                <option value="Connecticut">Connecticut</option>
+                <option value="Delaware">Delaware</option>
+                <option value="Florida">Florida</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Hawaii">Hawaii</option>
+                <option value="Idaho">Idaho</option>
+                <option value="Illinois">Illinois</option>
+                <option value="Indiana">Indiana</option>
+                <option value="Iowa">Iowa</option>
+                <option value="Kansas">Kansas</option>
+                <option value="Kentucky">Kentucky</option>
+                <option value="Louisiana">Louisiana</option>
+                <option value="Maine">Maine</option>
+                <option value="Maryland">Maryland</option>
+                <option value="Massachusetts">Massachusetts</option>
+                <option value="Michigan">Michigan</option>
+                <option value="Minnesota">Minnesota</option>
+                <option value="Mississippi">Mississippi</option>
+                <option value="Missouri">Missouri</option>
+                <option value="Montana">Montana</option>
+                <option value="Nebraska">Nebraska</option>
+                <option value="Nevada">Nevada</option>
+                <option value="New Hampshire">New Hampshire</option>
+                <option value="New Jersey">New Jersey</option>
+                <option value="New Mexico">New Mexico</option>
+                <option value="New York">New York</option>
+                <option value="North Carolina">North Carolina</option>
+                <option value="North Dakota">North Dakota</option>
+                <option value="Ohio">Ohio</option>
+                <option value="Oklahoma">Oklahoma</option>
+                <option value="Oregon">Oregon</option>
+                <option value="Pennsylvania">Pennsylvania</option>
+                <option value="Rhode Island">Rhode Island</option>
+                <option value="South Carolina">South Carolina</option>
+                <option value="South Dakota">South Dakota</option>
+                <option value="Tennessee">Tennessee</option>
+                <option value="Texas">Texas</option>
+                <option value="Utah">Utah</option>
+                <option value="Vermont">Vermont</option>
+                <option value="Virginia">Virginia</option>
+                <option value="Washington">Washington</option>
+                <option value="West Virginia">West Virginia</option>
+                <option value="Wisconsin">Wisconsin</option>
+                <option value="Wyoming">Wyoming</option>
+            </select>
+        </div>
+
+        <!-- Q5: Marital Status -->
+        <div id="q5" class="question">
+            <label>Are you married or single?</label><br>
+            <input type="radio" name="maritalStatus" value="single"> Single
+            <input type="radio" name="maritalStatus" value="married"> Married
+            <div id="marriedTooltip" class="tooltip" style="display: none;">
+                Note: If filing individually, please explain that we need total household income from all sources, including a non-filing spouse, as it affects bankruptcy calculations.
+            </div>
+        </div>
+
+        <!-- Q5a: Income -->
+        <div id="q5a_single" class="question indent">
+            <label>What is your monthly income from all sources? ($)</label><br>
+            <input type="number" name="singleIncome" min="0" step="0.01">
+        </div>
+        <div id="q5a_married" class="question indent">
+            <label>What is your joint monthly income? ($)</label><br>
+            <input type="number" name="jointIncome" min="0" step="0.01">
+        </div>
+
+        <!-- Q6: Other Income -->
+        <div id="q6" class="question">
+            <label>Any other source of income?</label><br>
+            <input type="radio" name="otherIncome" value="yes"> Yes
+            <input type="radio" name="otherIncome" value="no"> No
+        </div>
+        <div id="q6a" class="question indent">
+            <label>Enter amount ($)</label><br>
+            <input type="number" name="otherIncomeAmount" min="0" step="0.01">
+        </div>
+
+        <!-- Q7: Housing -->
+        <div id="q7" class="question">
+            <label>Where you live, do you own or rent?</label><br>
+            <input type="radio" name="housing" value="own"> Own
+            <input type="radio" name="housing" value="rent"> Rent
+        </div>
+        <div id="q7a_own" class="question indent" style="display: none;">
+            <label>Do you live in the property?</label><br>
+            <input type="radio" name="livesInProperty" value="yes"> Yes
+            <input type="radio" name="livesInProperty" value="no"> No<br>
+            <label>How long have you owned it? (years)</label><br>
+            <input type="number" name="ownershipYears" min="0" step="0.1"><br>
+            <label>Property value ($)</label><br>
+            <input type="number" name="propertyValue" min="0" step="0.01"><br>
+            <label>Loan balance ($)</label><br>
+            <input type="number" name="loanBalance" min="0" step="0.01"><br>
+            <label>Do you own any other properties?</label><br>
+            <input type="radio" name="otherProperties" value="yes"> Yes
+            <input type="radio" name="otherProperties" value="no"> No
+            <div id="q7a_own_properties" class="question indent" style="display: none;">
+                <label>Number of additional properties:</label><br>
+                <input type="number" name="ownPropertyCount" min="1" id="ownPropertyCount"><br>
+                <div id="ownPropertyDetails"></div>
+            </div>
+        </div>
+        <div id="q7a_rent" class="question indent" style="display: none;">
+            <label>Monthly rent ($)</label><br>
+            <input type="number" name="rentAmount" min="0" step="0.01"><br>
+            <label>Do you own any real estate?</label><br>
+            <input type="radio" name="rentOwnsRealEstate" value="yes"> Yes
+            <input type="radio" name="rentOwnsRealEstate" value="no"> No
+            <div id="q7a_rent_properties" class="question indent" style="display: none;">
+                <label>Number of properties:</label><br>
+                <input type="number" name="rentPropertyCount" min="1" id="rentPropertyCount"><br>
+                <div id="rentPropertyDetails"></div>
+            </div>
+        </div>
+
+        <!-- Q8: Vehicles -->
+        <div id="q8" class="question">
+            <label>Do you own any vehicles?</label><br>
+            <input type="radio" name="hasVehicles" value="yes"> Yes
+            <input type="radio" name="hasVehicles" value="no"> No
+        </div>
+        <div id="q8a" class="question indent" style="display: none;">
+            <label>How many vehicles?</label><br>
+            <input type="number" name="vehicleCount" min="1" id="vehicleCount"><br>
+            <div id="vehicleDetails"></div>
+        </div>
+
+        <!-- Q9: Lawsuits -->
+        <div id="q9" class="question">
+            <label>Are you suing anyone or have the right to sue?</label><br>
+            <input type="radio" name="hasLawsuit" value="yes"> Yes
+            <input type="radio" name="hasLawsuit" value="no"> No
+        </div>
+
+        <!-- Q10: Settled Lawsuits -->
+        <div id="q10" class="question">
+            <label>Have you settled any lawsuits in the last 3 years?</label><br>
+            <input type="radio" name="settledLawsuit" value="yes"> Yes
+            <input type="radio" name="settledLawsuit" value="no"> No
+        </div>
+        <div id="q10a" class="question indent" style="display: none;">
+            <label>Settlement amount ($)</label><br>
+            <input type="number" name="settlementAmount" min="0" step="0.01">
+        </div>
+
+        <!-- Q11: Inheritance -->
+        <div id="q11" class="question">
+            <label>Are you expecting an inheritance?</label><br>
+            <input type="radio" name="expectingInheritance" value="yes"> Yes
+            <input type="radio" name="expectingInheritance" value="no"> No
+        </div>
+
+        <!-- Notes (always visible) -->
+        <div id="notes">
+            <label>Additional Notes (optional, e.g., "Considering Chapter 7, researching fees"):</label><br>
+            <textarea name="additionalNotes" rows="4" cols="50"></textarea>
+        </div>
+
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+
+    <div id="resultsContainer">
+        <h3>Results</h3>
+        <div id="resultsText"></div>
+        <button id="copyButton">Copy Results</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('bankruptcyForm');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsText = document.getElementById('resultsText');
+            const submitButton = document.getElementById('submitButton');
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth() + 1;
+
+            // Enable submit button on form change
+            form.addEventListener('change', () => submitButton.disabled = false);
+
+            // Q1: Permission
+            document.querySelectorAll('input[name="permission"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'yes') {
+                        document.getElementById('q2').classList.add('active');
+                    } else {
+                        alert("Form cannot proceed without permission.");
+                    }
+                });
+            });
+
+            // Q2: Bankruptcy Status
+            document.querySelectorAll('input[name="bankruptcyStatus"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q2a_prior').classList.remove('active');
+                    document.getElementById('q2a_active').classList.remove('active');
+                    document.getElementById('q3').classList.remove('active');
+                    if (this.value === 'prior') {
+                        document.getElementById('q2a_prior').classList.add('active');
+                    } else if (this.value === 'active') {
+                        document.getElementById('q2a_active').classList.add('active');
+                    } else if (this.value === 'no') {
+                        document.getElementById('q3').classList.add('active');
+                    }
+                });
+            });
+
+            // Q2a_prior: Dismissal
+            document.querySelectorAll('input[name="priorDismissed"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const dismissedWhen = document.querySelector('input[name="dismissedWhen"]');
+                    dismissedWhen.disabled = this.value !== 'yes';
+                    if (this.value === 'yes') dismissedWhen.focus();
+                    document.getElementById('q3').classList.add('active');
+                });
+            });
+
+            // Q3: County -> Q4
+            document.querySelector('input[name="county"]').addEventListener('change', () => {
+                document.getElementById('q4').classList.add('active');
+            });
+
+            // Q4: Florida Residency Type
+            document.querySelectorAll('input[name="floridaDurationType"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.querySelectorAll('.duration-input').forEach(input => input.disabled = true);
+                    if (this.value === 'years') document.querySelector('input[name="floridaYears"]').disabled = false;
+                    else if (this.value === 'sinceYear') document.querySelector('input[name="floridaSinceYear"]').disabled = false;
+                    else if (this.value === 'sinceMonthYear') {
+                        document.querySelector('select[name="floridaSinceMonth"]').disabled = false;
+                        document.querySelector('input[name="floridaSinceYearMonth"]').disabled = false;
+                    }
+                    checkFloridaDuration();
+                });
+            });
+
+            function checkFloridaDuration() {
+                const type = document.querySelector('input[name="floridaDurationType"]:checked')?.value;
+                let yearsLived = 0;
+                if (type === 'years') {
+                    yearsLived = parseFloat(document.querySelector('input[name="floridaYears"]').value) || 0;
+                } else if (type === 'sinceYear') {
+                    const sinceYear = parseInt(document.querySelector('input[name="floridaSinceYear"]').value) || currentYear;
+                    yearsLived = currentYear - sinceYear;
+                } else if (type === 'sinceMonthYear') {
+                    const sinceMonth = parseInt(document.querySelector('select[name="floridaSinceMonth"]').value) || currentMonth;
+                    const sinceYear = parseInt(document.querySelector('input[name="floridaSinceYearMonth"]').value) || currentYear;
+                    const totalMonths = (currentYear - sinceYear) * 12 + (currentMonth - sinceMonth);
+                    yearsLived = totalMonths / 12;
+                }
+                document.getElementById('q4a').classList.toggle('active', yearsLived < 2 && yearsLived >= 0);
+                document.getElementById('q5').classList.add('active');
+            }
+
+            // Q5: Marital Status
+            document.querySelectorAll('input[name="maritalStatus"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('marriedTooltip').style.display = this.value === 'married' ? 'block' : 'none';
+                    document.getElementById('q5a_single').classList.toggle('active', this.value === 'single');
+                    document.getElementById('q5a_married').classList.toggle('active', this.value === 'married');
+                    document.getElementById('q6').classList.add('active'); // Show other income
+                });
+            });
+
+            // Q6: Other Income
+            document.querySelectorAll('input[name="otherIncome"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q6a').classList.toggle('active', this.value === 'yes');
+                    document.getElementById('q7').classList.add('active'); // Show housing
+                });
+            });
+
+            // Q7: Housing
+            document.querySelectorAll('input[name="housing"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q7a_own').style.display = this.value === 'own' ? 'block' : 'none';
+                    document.getElementById('q7a_rent').style.display = this.value === 'rent' ? 'block' : 'none';
+                    document.getElementById('q8').classList.add('active'); // Show vehicles
+                });
+            });
+
+            // Real Estate for Renters
+            document.querySelectorAll('input[name="rentOwnsRealEstate"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q7a_rent_properties').style.display = this.value === 'yes' ? 'block' : 'none';
+                });
+            });
+
+            // Dynamic Real Estate Details for Renters
+            document.getElementById('rentPropertyCount').addEventListener('change', function() {
+                const count = parseInt(this.value) || 0;
+                const container = document.getElementById('rentPropertyDetails');
+                container.innerHTML = '';
+                for (let i = 1; i <= count; i++) {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <h4>Property ${i}</h4>
+                        <label>Property Value ($):</label><br>
+                        <input type="number" name="rentProperty${i}_value" min="0" step="0.01"><br>
+                        <label>Loan Balance ($):</label><br>
+                        <input type="number" name="rentProperty${i}_loanBalance" min="0" step="0.01"><br>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+
+            // Additional Properties for Owners
+            document.querySelectorAll('input[name="otherProperties"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q7a_own_properties').style.display = this.value === 'yes' ? 'block' : 'none';
+                });
+            });
+
+            // Dynamic Additional Properties for Owners
+            document.getElementById('ownPropertyCount').addEventListener('change', function() {
+                const count = parseInt(this.value) || 0;
+                const container = document.getElementById('ownPropertyDetails');
+                container.innerHTML = '';
+                for (let i = 1; i <= count; i++) {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <h4>Additional Property ${i}</h4>
+                        <label>Property Value ($):</label><br>
+                        <input type="number" name="ownProperty${i}_value" min="0" step="0.01"><br>
+                        <label>Loan Balance ($):</label><br>
+                        <input type="number" name="ownProperty${i}_loanBalance" min="0" step="0.01"><br>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+
+            // Q8: Vehicles
+            document.querySelectorAll('input[name="hasVehicles"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q8a').style.display = this.value === 'yes' ? 'block' : 'none';
+                    document.getElementById('q9').classList.add('active'); // Show lawsuits
+                });
+            });
+
+            // Dynamic Vehicle Details
+            document.getElementById('vehicleCount').addEventListener('change', function() {
+                const count = parseInt(this.value) || 0;
+                const container = document.getElementById('vehicleDetails');
+                container.innerHTML = '';
+                for (let i = 1; i <= count; i++) {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <h4>Vehicle ${i}</h4>
+                        <label><input type="radio" name="vehicle${i}_status" value="paid"> Paid in Full</label>
+                        <label><input type="radio" name="vehicle${i}_status" value="financed"> Financed</label>
+                        <label><input type="radio" name="vehicle${i}_status" value="leased"> Leased</label><br>
+                        <div class="indent vehicle-paid" style="display: none;">
+                            <label>Value ($):</label><br>
+                            <input type="number" name="vehicle${i}_value" min="0" step="0.01">
+                        </div>
+                        <div class="indent vehicle-financed" style="display: none;">
+                            <label>Monthly Payment ($):</label><br>
+                            <input type="number" name="vehicle${i}_monthlyPayment" min="0" step="0.01"><br>
+                            <label>Loan Balance ($):</label><br>
+                            <input type="number" name="vehicle${i}_loanBalance" min="0" step="0.01"><br>
+                            <label>Value ($):</label><br>
+                            <input type="number" name="vehicle${i}_financedValue" min="0" step="0.01">
+                        </div>
+                        <div class="indent vehicle-leased" style="display: none;">
+                            <label>Monthly Payment ($):</label><br>
+                            <input type="number" name="vehicle${i}_leasePayment" min="0" step="0.01">
+                        </div>
+                    `;
+                    container.appendChild(div);
+                    div.querySelectorAll(`input[name="vehicle${i}_status"]`).forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            div.querySelector('.vehicle-paid').style.display = this.value === 'paid' ? 'block' : 'none';
+                            div.querySelector('.vehicle-financed').style.display = this.value === 'financed' ? 'block' : 'none';
+                            div.querySelector('.vehicle-leased').style.display = this.value === 'leased' ? 'block' : 'none';
+                        });
+                    });
+                }
+            });
+
+            // Q9: Lawsuits
+            document.querySelectorAll('input[name="hasLawsuit"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q10').classList.add('active'); // Show settled lawsuits
+                });
+            });
+
+            // Q10: Settled Lawsuits
+            document.querySelectorAll('input[name="settledLawsuit"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('q10a').style.display = this.value === 'yes' ? 'block' : 'none';
+                    document.getElementById('q11').classList.add('active'); // Show inheritance
+                });
+            });
+
+            // Form Submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const responses = Object.fromEntries(formData);
+                const floridaYears = calculateFloridaYears();
+
+                // Property Analysis (simplified)
+                let homesteadExemption = 0;
+                let homesteadEquity = 0;
+                let nonExemptHomestead = 0;
+                let nonExemptNonHomestead = 0;
+
+                if (responses.housing === 'own' && responses.livesInProperty === 'yes') {
+                    const ownershipDays = (parseFloat(responses.ownershipYears) || 0) * 365;
+                    homesteadExemption = ownershipDays >= 1205 ? Infinity : (responses.maritalStatus === 'married' ? 378100 : 189050);
+                    const propertyValue = parseFloat(responses.propertyValue) || 0;
+                    const loanBalance = parseFloat(responses.loanBalance) || 0;
+                    homesteadEquity = Math.max(propertyValue - loanBalance, 0);
+                    nonExemptHomestead = homesteadExemption === Infinity ? 0 : Math.max(homesteadEquity - homesteadExemption, 0);
+                }
+
+                // Non-Homestead Properties
+                if (responses.housing === 'rent' && responses.rentOwnsRealEstate === 'yes') {
+                    const rentPropertyCount = parseInt(responses.rentPropertyCount) || 0;
+                    for (let i = 1; i <= rentPropertyCount; i++) {
+                        const value = parseFloat(responses[`rentProperty${i}_value`]) || 0;
+                        const loan = parseFloat(responses[`rentProperty${i}_loanBalance`]) || 0;
+                        nonExemptNonHomestead += Math.max(value - loan, 0);
+                    }
+                } else if (responses.housing === 'own' && responses.otherProperties === 'yes') {
+                    const ownPropertyCount = parseInt(responses.ownPropertyCount) || 0;
+                    for (let i = 1; i <= ownPropertyCount; i++) {
+                        const value = parseFloat(responses[`ownProperty${i}_value`]) || 0;
+                        const loan = parseFloat(responses[`ownProperty${i}_loanBalance`]) || 0;
+                        nonExemptNonHomestead += Math.max(value - loan, 0);
+                    }
+                }
+
+                // Vehicle Exemption Logic
+                let totalVehicleEquity = 0;
+                if (responses.hasVehicles === 'yes') {
+                    const vehicleCount = parseInt(responses.vehicleCount) || 0;
+                    for (let i = 1; i <= vehicleCount; i++) {
+                        const status = responses[`vehicle${i}_status`];
+                        if (status === 'paid') {
+                            const value = parseFloat(responses[`vehicle${i}_value`]) || 0;
+                            totalVehicleEquity += value;
+                        } else if (status === 'financed') {
+                            const value = parseFloat(responses[`vehicle${i}_financedValue`]) || 0;
+                            const loan = parseFloat(responses[`vehicle${i}_loanBalance`]) || 0;
+                            totalVehicleEquity += Math.max(value - loan, 0);
+                        }
+                        // Leased vehicles contribute zero equity, so no action needed
+                    }
+                }
+                const nonExemptVehicle = Math.max(totalVehicleEquity - 5000, 0); // Apply $5,000 exemption
+
+                // Total Non-Exempt Property Calculation
+                const totalNonExemptProperty = nonExemptHomestead + nonExemptNonHomestead + nonExemptVehicle;
+
+                // Build Results String
+                let resultString = "Bankruptcy Prequalification Results\n\n";
+                resultString += `Permission: ${responses.permission || 'Not answered'}\n`;
+                resultString += `Bankruptcy Status: ${responses.bankruptcyStatus || 'Not answered'}\n`;
+                if (responses.bankruptcyStatus === 'prior') {
+                    resultString += `  Prior Chapter: ${responses.priorChapter || 'Not specified'}\n`;
+                    resultString += `  Dismissed: ${responses.priorDismissed || 'Not answered'}\n`;
+                    if (responses.priorDismissed === 'yes') resultString += `    Dismissed When: ${responses.dismissedWhen || 'Not specified'}\n`;
+                } else if (responses.bankruptcyStatus === 'active') {
+                    resultString += `  Active Chapter: ${responses.activeChapter || 'Not specified'}\n`;
+                }
+                resultString += `County: ${responses.county || 'Not specified'}\n`;
+                resultString += `Florida Residency: ${floridaYears.toFixed(1)} years\n`;
+                if (floridaYears < 2) resultString += `  Previous Residence: ${responses.previousResidence || 'Not specified'}\n`;
+                resultString += `Marital Status: ${responses.maritalStatus || 'Not answered'}\n`;
+                resultString += `Monthly Income: $${responses[responses.maritalStatus === 'single' ? 'singleIncome' : 'jointIncome'] || '0.00'}\n`;
+                resultString += `Other Income: ${responses.otherIncome || 'Not answered'}\n`;
+                if (responses.otherIncome === 'yes') resultString += `  Amount: $${responses.otherIncomeAmount || '0.00'}\n`;
+                resultString += `Housing: ${responses.housing || 'Not answered'}\n`;
+                if (responses.housing === 'own') {
+                    resultString += `  Lives in Property: ${responses.livesInProperty || 'Not answered'}\n`;
+                    resultString += `  Ownership Years: ${responses.ownershipYears || '0'}\n`;
+                    resultString += `  Property Value: $${responses.propertyValue || '0.00'}\n`;
+                    resultString += `  Loan Balance: $${responses.loanBalance || '0.00'}\n`;
+                    resultString += `  Other Properties: ${responses.otherProperties || 'Not answered'}\n`;
+                    if (responses.otherProperties === 'yes') {
+                        const ownPropertyCount = parseInt(responses.ownPropertyCount) || 0;
+                        for (let i = 1; i <= ownPropertyCount; i++) {
+                            resultString += `    Additional Property ${i}:\n`;
+                            resultString += `      Value: $${responses[`ownProperty${i}_value`] || '0.00'}\n`;
+                            resultString += `      Loan Balance: $${responses[`ownProperty${i}_loanBalance`] || '0.00'}\n`;
+                        }
+                    }
+                } else if (responses.housing === 'rent') {
+                    resultString += `  Rent Amount: $${responses.rentAmount || '0.00'}\n`;
+                    resultString += `  Owns Real Estate: ${responses.rentOwnsRealEstate || 'Not answered'}\n`;
+                    if (responses.rentOwnsRealEstate === 'yes') {
+                        const rentPropertyCount = parseInt(responses.rentPropertyCount) || 0;
+                        for (let i = 1; i <= rentPropertyCount; i++) {
+                            resultString += `    Property ${i}:\n`;
+                            resultString += `      Value: $${responses[`rentProperty${i}_value`] || '0.00'}\n`;
+                            resultString += `      Loan Balance: $${responses[`rentProperty${i}_loanBalance`] || '0.00'}\n`;
+                        }
+                    }
+                }
+                resultString += `Vehicles: ${responses.hasVehicles || 'Not answered'}\n`;
+                if (responses.hasVehicles === 'yes') {
+                    const vehicleCount = parseInt(responses.vehicleCount) || 0;
+                    for (let i = 1; i <= vehicleCount; i++) {
+                        resultString += `  Vehicle ${i} Status: ${responses[`vehicle${i}_status`] || 'Not specified'}\n`;
+                        if (responses[`vehicle${i}_status`] === 'paid') {
+                            resultString += `    Value: $${responses[`vehicle${i}_value`] || '0.00'}\n`;
+                        } else if (responses[`vehicle${i}_status`] === 'financed') {
+                            resultString += `    Monthly Payment: $${responses[`vehicle${i}_monthlyPayment`] || '0.00'}\n`;
+                            resultString += `    Loan Balance: $${responses[`vehicle${i}_loanBalance`] || '0.00'}\n`;
+                            resultString += `    Value: $${responses[`vehicle${i}_financedValue`] || '0.00'}\n`;
+                        } else if (responses[`vehicle${i}_status`] === 'leased') {
+                            resultString += `    Monthly Payment: $${responses[`vehicle${i}_leasePayment`] || '0.00'}\n`;
+                        }
+                    }
+                }
+                resultString += `Lawsuits: ${responses.hasLawsuit || 'Not answered'}\n`;
+                resultString += `Settled Lawsuits: ${responses.settledLawsuit || 'Not answered'}\n`;
+                if (responses.settledLawsuit === 'yes') resultString += `  Settlement Amount: $${responses.settlementAmount || '0.00'}\n`;
+                resultString += `Expecting Inheritance: ${responses.expectingInheritance || 'Not answered'}\n`;
+                resultString += `\nExemption Analysis:\n`;
+                if (responses.housing === 'own' && responses.livesInProperty === 'yes') {
+                    const propertyValue = parseFloat(responses.propertyValue) || 0;
+                    const loanBalance = parseFloat(responses.loanBalance) || 0;
+                    resultString += `  Homestead Property (Primary Residence):\n`;
+                    resultString += `    Value: $${propertyValue.toLocaleString()}\n`;
+                    resultString += `    Loan Balance: $${loanBalance.toLocaleString()}\n`;
+                    resultString += `    Equity: $${homesteadEquity.toLocaleString()}\n`;
+                    resultString += `    Exemption: ${homesteadExemption === Infinity ? 'Full' : `$${homesteadExemption.toLocaleString()}`}\n`;
+                    resultString += `    Non-Exempt: $${nonExemptHomestead.toLocaleString()}\n`;
+                } else {
+                    resultString += `  Primary Residence: Rented (No Homestead Exemption)\n`;
+                }
+                if (nonExemptNonHomestead > 0) {
+                    resultString += `  Non-Homestead Properties:\n`;
+                    resultString += `    Total Non-Exempt Non-Homestead: $${nonExemptNonHomestead.toLocaleString()}\n`;
+                }
+                resultString += `  Vehicles:\n`;
+                resultString += `    Total Vehicle Equity: $${totalVehicleEquity.toLocaleString()}\n`;
+                resultString += `    Exemption: $5,000\n`;
+                resultString += `    Non-Exempt Vehicles: $${nonExemptVehicle.toLocaleString()}\n`;
+                resultString += `  <strong style="color: red;">Total Non-Exempt Property: $${totalNonExemptProperty.toLocaleString()}</strong>\n`;
+                resultString += `\nAdditional Notes: ${responses.additionalNotes || 'None'}`;
+
+                resultsText.innerHTML = resultString;
+                resultsContainer.style.display = 'block';
+                submitButton.classList.add('submitted');
+                submitButton.disabled = true;
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Copy Results
+            document.getElementById('copyButton').addEventListener('click', () => {
+                navigator.clipboard.writeText(resultsText.textContent).then(() => alert('Results copied to clipboard!'));
+            });
+
+            // Function to calculate Florida years
+            function calculateFloridaYears() {
+                const type = document.querySelector('input[name="floridaDurationType"]:checked')?.value;
+                let yearsLived = 0;
+                if (type === 'years') {
+                    yearsLived = parseFloat(document.querySelector('input[name="floridaYears"]').value) || 0;
+                } else if (type === 'sinceYear') {
+                    const sinceYear = parseInt(document.querySelector('input[name="floridaSinceYear"]').value) || currentYear;
+                    yearsLived = currentYear - sinceYear;
+                } else if (type === 'sinceMonthYear') {
+                    const sinceMonth = parseInt(document.querySelector('select[name="floridaSinceMonth"]').value) || currentMonth;
+                    const sinceYear = parseInt(document.querySelector('input[name="floridaSinceYearMonth"]').value) || currentYear;
+                    const totalMonths = (currentYear - sinceYear) * 12 + (currentMonth - sinceMonth);
+                    yearsLived = totalMonths / 12;
+                }
+                return yearsLived;
+            }
+        });
+    </script>
+</body>
+</html>
